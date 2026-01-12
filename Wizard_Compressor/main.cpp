@@ -4,6 +4,7 @@
 #include <bitset>
 #include <vector>
 #include <map>
+#include "PriorityQueue.hpp";
 
 std::string convert_to_binary(std::string line){
     std::string binary_version = "";
