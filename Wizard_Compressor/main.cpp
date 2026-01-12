@@ -3,6 +3,7 @@
 #include <fstream>
 #include <bitset>
 #include <vector>
+#include <map>
 
 std::string convert_to_binary(std::string line){
     std::string binary_version = "";
@@ -16,22 +17,33 @@ std::string convert_to_binary(std::string line){
     return binary_version;
 }
 
+void create_map(std::map<char, int>& initial_map, std::string_view line){
+    std::cout << "Creating frequency map..." << '\n';
+    for(int i = 0; i < line.length(); i++){
+        char curr_letter = line.at(i);
+        if(initial_map.count(curr_letter)) initial_map[curr_letter] += 1;
+        else initial_map[curr_letter] = 1;
+    }
+    std::cout << "Frequency Map has created." << '\n';
+
+}
+
+std::ifstream encoded_file(std::string file_location){
+
+
+return std::ifstream{};
+
+}
+
 
 int main()
 {
-
-
-    std::ifstream file("./input.txt");
-    std::string line;
-
-
-    while(std::getline(file, line)){
-        std::cout << line << '\n';
+    std::map<char, int> f_map;
+    create_map(f_map, "Somethinnngg");
+    std::cout << "Size of f_map: " << f_map.size() << '\n';
+    for(auto i = f_map.begin(); i != f_map.end(); i++){
+        std::cout << "Key: " << i->first << ',' << "Value: " << i->second << '\n';
     }
-    std::string new_line = "oran";
-    std::vector<std::string> v;
-    std::string binary_version = convert_to_binary(new_line);
-    std::cout << binary_version << '\n';
     return 0;
 }
 
