@@ -4,9 +4,9 @@
 
 template <typename T, typename U>
 struct Pair {
-    T first;
-    U second;
-    Pair(T first, U second): first{first}, second{second}
+    T _first;
+    U _second;
+    Pair(T first, U second): first{_first}, second{_second}
     {}
 };
 
@@ -16,10 +16,10 @@ class PriorityQueue {
         std::vector<Pair<T, U>> q;
 
     public:
-        void virtual swim();
-        void virtual sink();
-        void virtual add(const Pair<T, U>& freq_pair);
-        void virtual vanish(int index);
+        virtual void swim(int i);
+        virtual void sink(int i);
+        virtual void add(const Pair<T, U>& freq_pair);
+        virtual void vanish(int index);
 };
 
 
