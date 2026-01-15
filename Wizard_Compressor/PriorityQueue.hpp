@@ -24,7 +24,11 @@ class PriorityQueue {
             swim();
 
         }
-        Pair<T, U> pop();
+        Pair<T, U>& pop(){
+            auto result = this._q.at(this._q.size() - 1);
+            this._q.pop_back();
+            return result;
+        }
 
         void swim()
         {
@@ -44,7 +48,9 @@ class PriorityQueue {
             }
         }
 
-        void sink();
+        void sink(){
+
+        }
 };
 
 
