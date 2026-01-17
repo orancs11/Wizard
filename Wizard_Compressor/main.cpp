@@ -36,6 +36,17 @@ return std::ifstream{};
 
 }
 
+void print_file(const std::string& file_location){
+
+    std::ifstream input_file;
+    input_file.open(file_location);
+    std::string line;
+    int iterator{1};
+    while(std::getline(input_file, line)){
+        std::cout << iterator++ + "- " + line << '\n';
+    }
+}
+
 
 int main()
 {
