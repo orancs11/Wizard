@@ -1,5 +1,10 @@
-#ifndef PRIORITYQUEUE_HPP_INCLUDED
-#define PRIORITYQUEUE_HPP_INCLUDED
+#ifndef Huffman_INCLUDED
+#define Huffman_INCLUDED
+#include <string>
+#include <fstream>
+#include <vector>
+#include <map>
+#include<bitset>
 
 
 // Min heap Q
@@ -70,6 +75,53 @@ namespace Huffman{
 
     };
 
+
+
+inline std::string convert_to_binary(std::string line){
+    std::string binary_version = "";
+    for(auto i = 0; i < line.size(); i++){
+        char letter = line.at(i);
+        std::string bin_letter = std::bitset<8>(letter).to_string();
+
+        binary_version = bin_letter + "_"+ binary_version;
+    }
+    binary_version += "00000000";
+    return binary_version;
 }
+
+inline void create_map(std::map<char, int>& initial_map, std::string_view line){
+    std::cout << "Creating frequency map..." << '\n';
+    for(int i = 0; i < line.length(); i++){
+        char curr_letter = line.at(i);
+        if(initial_map.count(curr_letter)) initial_map[curr_letter] += 1;
+        else initial_map[curr_letter] = 1;
+    }
+    std::cout << "Frequency Map has created." << '\n';
+
+}
+
+inline std::ifstream encoded_file(std::string file_location){
+
+
+return std::ifstream{};
+
+}
+
+inline void print_file(const std::string& file_location){
+
+    std::ifstream input_file;
+    input_file.open(file_location);
+    std::string line;
+    int iterator{1};
+    while(std::getline(input_file, line)){
+        std::cout << iterator++ + "- " + line << '\n';
+    }
+}
+
+
+}
+
+
+
 
 #endif
