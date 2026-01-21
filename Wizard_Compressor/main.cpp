@@ -3,7 +3,19 @@
 #include <fstream>
 #include <vector>
 #include <map>
+#include<bitset>
 #include "PriorityQueue.hpp";
+
+
+
+//Get files
+//Iterate over files one by one
+// Huffman coding to create a dictionary
+// Encode file
+// Return encoded file
+// Create a basic site where it can string only files into compressed versions and encode them
+// return files as downloadable
+// Run it in docker
 
 std::string convert_to_binary(std::string line){
     std::string binary_version = "";
