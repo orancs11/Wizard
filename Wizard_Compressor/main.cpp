@@ -15,7 +15,6 @@
 //TODO
 // 1 - Create Huffman Tree
 // 1.1 - Create Frequency Map
-// 1.2 - Create Pair Struct (letter, frequency) | Or rather directly create Binary Node
 // 1.3 - Create Priority Q (min heap Q)
 
 // 2 - Sucessfully Decode compressed file using huffman again
@@ -26,8 +25,21 @@ int main()
 {
     std::map<char, int> f_map;
     Huffman::create_map(f_map, "Somethinnngg");
-    std::cout << "Size of f_map: " << f_map.size() << '\n';
+    std::cout << "---------------------------" << '\n';
+    int map_size{f_map.size()};
+    std::cout << "Size of f_map: " << map_size << '\n';
     Huffman::print_map(f_map);
+    std::cout << "---------------------------" << '\n';
+    Huffman::PriorityQueue minQ(map_size);
+    std::cout << "Min Queue is created!" << '\n';
+
+    for(auto i{f_map.begin()}; i != f_map.end(); i++){
+        Huffman::TreeNode* new_node = new Huffman::TreeNode(i->first, i->second);
+        minQ.offer(new_node); // Address of min queue
+    }
+    //Handle memory management
+    minQ.display();
+    std::cout << "Nodes are fed to min queue" << '\n';
     return 0;
 }
 

@@ -24,99 +24,107 @@ namespace Huffman{
             TreeNode(){}
             TreeNode(char input_letter, int input_val):
             val{input_val}, letter{input_letter}{}
+            TreeNode(int input_val): val{input_val}{};
 
-
+            ~TreeNode(){
+                delete left;
+                delete right;
+            }
 
 };
 
 
     class PriorityQueue {
-        public:
+        private:
             std::vector<TreeNode*> minQ;
+            int parent(int i){ return (i - 1) / 2; }
+            int left_child(int i){ return (2 * i + 1); }
+            int right_child(int i){ return (2 * i + 2); }
 
-            PriorityQueue(int k){
+            bool is_leaf(int i){
+                if(left_child(i) >= minQ.size() || right_child(i) >= minQ.size()) return false;
+                return true;
+            }
+
+        public:
+            PriorityQueue(int k) {
                 minQ.reserve(k);
             }
 
-            void swim(){
+            void offer(TreeNode* element){
+                minQ.push_back(element);
                 int curr_index{minQ.size() - 1};
-                int parent_index{(curr_index - 1) / 2};
 
                 while(curr_index > 0){
-                    if(minQ.at(parent_index)->val > minQ.at(curr_index)->val)
+                    int parent_index{parent(curr_index)};
+                    if(minQ.at(parent_index)->val > minQ.at(curr_index)->val){
                         std::swap(minQ.at(parent_index), minQ.at(curr_index));
-                    else break;
+                    }
                     curr_index = parent_index;
-                    parent_index = (curr_index - 1) / 2;
                 }
 
-
             }
 
-            void sink(){
+            void heapify(int i){
+                if(is_leaf(i)) return;
+                int child_index = minQ.at(left_child(i))->val > minQ.at(right_child(i))->val ?
+                right_child(i) : left_child(i);
 
-            }
+                if(minQ.at(i)->val > minQ.at(child_index)->val){
+                    std::swap(minQ.at(child_index), minQ.at(i));
+                    heapify(child_index);
+                }
 
-            void offer(TreeNode& node){
-                minQ.push_back(&node);
-                swim();
-            }
-
-            TreeNode* peek(){
-                return minQ.at(0);
             }
 
             TreeNode* poll(){
-                TreeNode* tempAddress{minQ.at(0)};
+                TreeNode * poppedNode{minQ.at(0)};
+                //Swap last element with first element and pop last element
+                std::swap(minQ.at(0), minQ.at(minQ.size() - 1));
                 minQ.pop_back();
-                sink();
-                return tempAddress;
+                heapify(0);
+                return poppedNode;
             }
 
+
+            void display(){
+                for(auto i{0}; i < minQ.size(); i++){
+                    TreeNode* curr_node{minQ.at(i)};
+                    std::cout <<"Letter: " << curr_node->letter << " Value: " << curr_node->val << '\n';
+                }
+            }
     };
 
+    // Utility functions
 
+    inline void create_map(std::map<char, int>& initial_map, std::string_view line){
+        std::cout << "Creating frequency map..." << '\n';
+        for(int i = 0; i < line.length(); i++){
+            char curr_letter = line.at(i);
+            if(initial_map.count(curr_letter)) initial_map[curr_letter] += 1;
+            else initial_map[curr_letter] = 1;
+        }
+        std::cout << "Frequency Map has created." << '\n';
 
-inline std::string convert_to_binary(std::string line){
-    std::string binary_version = "";
-    for(auto i = 0; i < line.size(); i++){
-        char letter = line.at(i);
-        std::string bin_letter = std::bitset<8>(letter).to_string();
-
-        binary_version = bin_letter + "_"+ binary_version;
     }
-    binary_version += "00000000";
-    return binary_version;
-}
 
-inline void create_map(std::map<char, int>& initial_map, std::string_view line){
-    std::cout << "Creating frequency map..." << '\n';
-    for(int i = 0; i < line.length(); i++){
-        char curr_letter = line.at(i);
-        if(initial_map.count(curr_letter)) initial_map[curr_letter] += 1;
-        else initial_map[curr_letter] = 1;
+    inline std::ifstream encoded_file(std::string file_location){
+
+
+    return std::ifstream{};
+
     }
-    std::cout << "Frequency Map has created." << '\n';
 
-}
+    inline void print_file(const std::string& file_location){
 
-inline std::ifstream encoded_file(std::string file_location){
-
-
-return std::ifstream{};
-
-}
-
-inline void print_file(const std::string& file_location){
-
-    std::ifstream input_file;
-    input_file.open(file_location);
-    std::string line;
-    int iterator{1};
-    while(std::getline(input_file, line)){
-        std::cout << iterator++ + "- " + line << '\n';
+        std::ifstream input_file;
+        input_file.open(file_location);
+        std::string line;
+        int iterator{1};
+        while(std::getline(input_file, line)){
+            std::cout << iterator++ + "- " + line << '\n';
+        }
     }
-}
 
     inline void print_map(const std::map<char, int>& f_map){
         for(auto i = f_map.begin(); i != f_map.end(); i++){
@@ -125,8 +133,6 @@ inline void print_file(const std::string& file_location){
     }
 
 }
-
-
 
 
 #endif
