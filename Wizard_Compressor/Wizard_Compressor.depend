@@ -1,12 +1,12 @@
 # depslib dependency file v1.0
-1768256350 source:/home/oran/Desktop/Wizard_Compressor/Wizard_Compressor/main.cpp
+1769012208 source:/home/oran/Desktop/Wizard_Compressor/Wizard_Compressor/main.cpp
 	<iostream>
 	<string>
 	<fstream>
-	<bitset>
 	<vector>
 	<map>
+	<bitset>
 	"PriorityQueue.hpp"
 
-1768505144 /home/oran/Desktop/Wizard_Compressor/Wizard_Compressor/PriorityQueue.hpp
+1769014766 /home/oran/Desktop/Wizard_Compressor/Wizard_Compressor/PriorityQueue.hpp
 

@@ -17,6 +17,15 @@
 // return files as downloadable
 // Run it in docker
 
+//TODO
+// 1 - Create Huffman Tree
+// 1.1 - Create Frequency Map
+// 1.2 - Create Pair Struct (letter, frequency) | Or rather directly create Binary Node
+// 1.3 - Create Priority Q (min heap Q)
+
+// 2 - Sucessfully Decode compressed file using huffman again
+
+
 std::string convert_to_binary(std::string line){
     std::string binary_version = "";
     for(auto i = 0; i < line.size(); i++){

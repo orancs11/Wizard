@@ -2,62 +2,58 @@
 #define PRIORITYQUEUE_HPP_INCLUDED
 
 
-template <typename T, typename U>
-struct Pair {
-    T first;
-    U second;
+// Min heap Q
+// Q stores pairs by looking at their frequencies(second values)
+// Binary TreeNode for building Huffman Tree
+
+
+namespace Huffman{
+
+    class TreeNode{
+        public:
+            int val;
+            char letter;
+            TreeNode* left{nullptr};
+            TreeNode* right{nullptr};
+
+            TreeNode(){}
+            TreeNode(char input_letter, int input_val):
+            val{input_val}, letter{input_letter}{}
+
+
 
 };
 
-template <typename T, typename U>
-class PriorityQueue {
-    private:
-        std::vector<Pair<T, U>> _q;
 
-    public:
-         PriorityQueue(){}
-        ~PriorityQueue(){}
+    class PriorityQueue {
+        public:
+            std::vector<TreeNode*> minQ;
 
-        void add(const Pair<T, U> &p)
-        {
-            this._q.push_back(p);
-            swim();
-
-        }
-        Pair<T, U>& pop(){
-            auto result = this._q.at(this._q.size() - 1);
-            this._q.pop_back();
-            return result;
-        }
-
-        void swim()
-        {
-            int last_index = _q.size() - 1;
-            int curr_index{last_index};
-            bool condition{true};
-
-
-            while(condition){
-                int parent = (curr_index - 1) / 2;
-                if(this._q.at(parent).second < this._q.at(curr_index).second)
-                {
-                    std::swap(_q.at(parent), _q.at(curr_index));
-                }
-                else condition = false;
-                curr_index = parent;
+            PriorityQueue(int k): minQ(k){
             }
-        }
 
-        void sink(){
+            void swim(){
 
-        }
-};
+            }
 
+            void sink(){
 
+            }
 
+            void offer(const TreeNode* node){
 
+            }
 
+            TreeNode& peek(){
 
+            }
 
+            TreeNode& poll(){
+
+            }
+
+    };
+
+}
 
 #endif
