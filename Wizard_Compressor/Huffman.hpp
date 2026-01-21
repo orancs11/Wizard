@@ -118,6 +118,11 @@ inline void print_file(const std::string& file_location){
     }
 }
 
+    inline void print_map(const std::map<char, int>& f_map){
+        for(auto i = f_map.begin(); i != f_map.end(); i++){
+            std::cout << "Key: " << i->first << ',' << "Value: " << i->second << '\n';
+        }
+    }
 
 }
 

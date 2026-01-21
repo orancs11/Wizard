@@ -27,9 +27,7 @@ int main()
     std::map<char, int> f_map;
     Huffman::create_map(f_map, "Somethinnngg");
     std::cout << "Size of f_map: " << f_map.size() << '\n';
-    for(auto i = f_map.begin(); i != f_map.end(); i++){
-        std::cout << "Key: " << i->first << ',' << "Value: " << i->second << '\n';
-    }
+    Huffman::print_map(f_map);
     return 0;
 }
 
