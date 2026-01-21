@@ -29,10 +29,22 @@ namespace Huffman{
         public:
             std::vector<TreeNode*> minQ;
 
-            PriorityQueue(int k): minQ(k){
+            PriorityQueue(int k){
+                minQ.reserve(k);
             }
 
             void swim(){
+                int curr_index{minQ.size() - 1};
+                int parent_index{(curr_index - 1) / 2};
+
+                while(curr_index > 0){
+                    if(minQ.at(parent_index)->val > minQ.at(curr_index)->val)
+                        std::swap(minQ.at(parent_index), minQ.at(curr_index));
+                    else break;
+                    curr_index = parent_index;
+                    parent_index = (curr_index - 1) / 2;
+                }
+
 
             }
 
@@ -40,16 +52,20 @@ namespace Huffman{
 
             }
 
-            void offer(const TreeNode* node){
-
+            void offer(TreeNode& node){
+                minQ.push_back(&node);
+                swim();
             }
 
-            TreeNode& peek(){
-
+            TreeNode* peek(){
+                return minQ.at(0);
             }
 
-            TreeNode& poll(){
-
+            TreeNode* poll(){
+                TreeNode* tempAddress{minQ.at(0)};
+                minQ.pop_back();
+                sink();
+                return tempAddress;
             }
 
     };
