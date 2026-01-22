@@ -42,8 +42,8 @@ namespace Huffman{
             int right_child(int i){ return (2 * i + 2); }
 
             bool is_leaf(int i){
-                if(left_child(i) >= minQ.size() || right_child(i) >= minQ.size()) return false;
-                return true;
+                if(left_child(i) >= minQ.size() && right_child(i) >= minQ.size()) return true;
+                return false;
             }
 
         public:
@@ -67,8 +67,22 @@ namespace Huffman{
 
             void heapify(int i){
                 if(is_leaf(i)) return;
-                int child_index = minQ.at(left_child(i))->val > minQ.at(right_child(i))->val ?
-                right_child(i) : left_child(i);
+
+                int child_index;
+                int right_child_index {right_child(i)};
+                int left_child_index {left_child(i)};
+
+
+                if(right_child_index >= minQ.size()){
+                    child_index = left_child_index;
+                }
+                else if(left_child_index >= minQ.size()){
+                    child_index = right_child_index;
+                }
+                else{
+                    child_index = minQ.at(right_child_index)->val > minQ.at(left_child_index)->val ?
+                    left_child_index : right_child_index;
+                }
 
                 if(minQ.at(i)->val > minQ.at(child_index)->val){
                     std::swap(minQ.at(child_index), minQ.at(i));
@@ -93,11 +107,21 @@ namespace Huffman{
                     std::cout <<"Letter: " << curr_node->letter << " Value: " << curr_node->val << '\n';
                 }
             }
+
+            int size(){
+                return minQ.size();
+            }
     };
 
     // Utility functions
+    inline void create_minQ(PriorityQueue& minQ, std::map<char, int>& f_map){
+        for(auto i{f_map.begin()}; i != f_map.end(); i++){
+        Huffman::TreeNode* new_node = new Huffman::TreeNode(i->first, i->second);
+        minQ.offer(new_node); // Address of min queue
+        }
+    }
 
-    inline void create_map(std::map<char, int>& initial_map, std::string_view line){
+    inline void build_map(std::map<char, int>& initial_map, std::string_view line){
         std::cout << "Creating frequency map..." << '\n';
         for(int i = 0; i < line.length(); i++){
             char curr_letter = line.at(i);
