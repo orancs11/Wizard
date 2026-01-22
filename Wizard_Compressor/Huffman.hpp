@@ -17,7 +17,7 @@ namespace Huffman{
     class TreeNode{
         public:
             int val;
-            char letter;
+            char letter{'\0'}; // Assign sentinel value since huffman nodes may have empty letter
             TreeNode* left{nullptr};
             TreeNode* right{nullptr};
 
@@ -150,10 +150,22 @@ namespace Huffman{
         }
     }
 
-    inline void print_map(const std::map<char, int>& f_map){
+    template <typename T, typename U>
+    inline void print_map(const std::map<T, U>& f_map){
         for(auto i = f_map.begin(); i != f_map.end(); i++){
             std::cout << "Key: " << i->first << ',' << "Value: " << i->second << '\n';
         }
+    }
+
+    inline void create_huffman_structure(TreeNode* root, std::string encoded_letter, std::map<char, std::string>& huffman_map){
+        // Recursive DFS function
+        if(root == nullptr) return;
+            create_huffman_structure(root->left, encoded_letter.append("0"), huffman_map);
+            create_huffman_structure(root->right, encoded_letter.append("1"), huffman_map);
+
+        if(root->letter != '\0') // Check sentinel value
+            huffman_map.emplace(root->letter, encoded_letter);
+
     }
 
 }

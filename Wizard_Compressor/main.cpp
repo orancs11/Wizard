@@ -36,8 +36,6 @@ int main()
     //Handle memory management
     //»
 
-    //minQ.display();
-
     //Huffman Process
     int curr_size = minQ.size();
 
@@ -50,12 +48,13 @@ int main()
         composite_node->right = second_node;
         minQ.offer(composite_node);
     }
-
-    minQ.display();
-
-
-
     std::cout << "Nodes are fed to min queue" << '\n';
+
+    Huffman::TreeNode* root{minQ.poll()};
+
+    std::map<char, std::string> huffman_structure;
+    Huffman::create_huffman_structure(root, "", huffman_structure);
+    Huffman::print_map(huffman_structure);
     return 0;
 }
 
