@@ -1,10 +1,11 @@
 #ifndef Huffman_INCLUDED
 #define Huffman_INCLUDED
+#include<iostream>
 #include <string>
 #include <fstream>
 #include <vector>
 #include <map>
-#include<bitset>
+
 
 
 // Min heap Q
@@ -114,6 +115,8 @@ namespace Huffman{
     };
 
     // Utility functions
+
+
     inline void create_minQ(PriorityQueue& minQ, std::map<char, int>& f_map){
         for(auto i{f_map.begin()}; i != f_map.end(); i++){
         Huffman::TreeNode* new_node = new Huffman::TreeNode(i->first, i->second);
@@ -122,25 +125,18 @@ namespace Huffman{
     }
 
     inline void build_map(std::map<char, int>& initial_map, std::string_view line){
-        std::cout << "Creating frequency map..." << '\n';
+
         for(int i = 0; i < line.length(); i++){
             char curr_letter = line.at(i);
             if(initial_map.count(curr_letter)) initial_map[curr_letter] += 1;
             else initial_map[curr_letter] = 1;
         }
-        std::cout << "Frequency Map has created." << '\n';
+
 
     }
 
-    inline std::ifstream encoded_file(std::string file_location){
-
-
-    return std::ifstream{};
-
-    }
 
     inline void print_file(const std::string& file_location){
-
         std::ifstream input_file;
         input_file.open(file_location);
         std::string line;
