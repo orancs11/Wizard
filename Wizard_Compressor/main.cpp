@@ -40,6 +40,9 @@ int main()
     file.open(path);
     std::string new_line;
     std::vector<unsigned char> storage;
+
+    std::ofstream target_file("target_file.bin", std::ios::out | std::ios::binary);
+
     unsigned char buffer{};
 
     long long total_bits_count{0};
@@ -76,9 +79,11 @@ int main()
         buffer = buffer << (8 - remaining); // Move bits to the left
         storage.push_back(buffer);
     }
-    file.close();
+    target_file.write(reinterpret_cast<const char*>(&total_bits_count), sizeof(total_bits_count));
+    target_file.write(reinterpret_cast<const char*>(storage.data()), sizeof(storage.data()));
 
-    std::cout << static_cast<unsigned>(storage.at(0)) << '\n';
+    file.close();
+    target_file.close();
 
     return 0;
 }
