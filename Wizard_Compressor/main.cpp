@@ -14,7 +14,7 @@ int main()
         Utilities::build_map(f_map, line);
     }
 
-    std::cout << "---------------------------" << '\n';
+    input_file.close();
 
     //Huffman Process
     int map_size = f_map.size();
@@ -35,6 +35,55 @@ int main()
 
     Utilities::print_map(huffman_structure);
 
+
+    std::fstream file;
+    file.open(path);
+    std::string new_line;
+    std::vector<unsigned char> storage;
+    unsigned char buffer{};
+
+    long long total_bits_count{0};
+    while(std::getline(file, new_line)){
+        for(auto i{0}; i < new_line.size(); i++){
+            std::string encoded_phrase{huffman_structure[new_line.at(i)]};
+
+            for(auto j{0}; j < encoded_phrase.size(); j++){
+                buffer = buffer << 1;
+                if(encoded_phrase.at(j) == '1') buffer |= 1;
+                else buffer |= 0;
+                total_bits_count++;
+                if(total_bits_count% 8 == 0){
+                    storage.push_back(buffer);
+                    buffer = 0;
+                }
+            }
+        }
+
+        for(auto k{0}; k < huffman_structure['\n'].size(); k++){
+                buffer = buffer << 1;
+                if(huffman_structure['\n'].at(k) == '1') buffer |= 1;
+                else buffer |= 0;
+                total_bits_count++;
+                if(total_bits_count % 8 == 0){
+                    storage.push_back(buffer);
+                    buffer = 0;
+                }
+            }
+    }
+
+    int remaining = total_bits_count % 8;
+    if (remaining > 0) {
+        buffer = buffer << (8 - remaining); // Move bits to the left
+        storage.push_back(buffer);
+    }
+    file.close();
+
+    std::cout << static_cast<unsigned>(storage.at(0)) << '\n';
+
     return 0;
 }
+
+
+
+
 
