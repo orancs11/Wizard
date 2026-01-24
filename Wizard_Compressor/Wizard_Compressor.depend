@@ -1,14 +1,17 @@
 # depslib dependency file v1.0
-1769076308 source:/home/oran/Desktop/Wizard_Compressor/Wizard_Compressor/main.cpp
+1769260347 source:/home/oran/Desktop/Wizard_Compressor/Wizard_Compressor/main.cpp
 	<iostream>
 	"Huffman.hpp"
+	"Utilities.hpp"
 
 1769016068 /home/oran/Desktop/Wizard_Compressor/Wizard_Compressor/PriorityQueue.hpp
 
-1769077150 /home/oran/Desktop/Wizard_Compressor/Wizard_Compressor/Huffman.hpp
+1769259909 /home/oran/Desktop/Wizard_Compressor/Wizard_Compressor/Huffman.hpp
+	<iostream>
 	<string>
 	<fstream>
 	<vector>
 	<map>
-	<bitset>
+
+1769260367 /home/oran/Desktop/Wizard_Compressor/Wizard_Compressor/Utilities.hpp
 
