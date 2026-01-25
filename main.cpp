@@ -1,13 +1,13 @@
 #include <iostream>
 #include "Huffman.hpp";
 #include "Utilities.hpp"
+#include "Global_Variables.hpp"
+
 int main()
 {
-    std::map<char, int> f_map;
 
-    std::string path{"./input.txt"};
-    std::ifstream input_file;
-    input_file.open(path);
+    std::map<char, int> f_map;
+    std::ifstream input_file(fs::absolute(INPUT_PATH));
     std::string line;
 
     while(std::getline(input_file, line)){
@@ -20,39 +20,30 @@ int main()
     int map_size = f_map.size();
     Huffman::PriorityQueue minQ(map_size);
     Utilities::create_minQ(minQ, f_map);
-    std::cout << "Min Queue is created!" << '\n';
 
 
-    std::cout << "Building Binary Huffman Tree..." << '\n';
+
+
     Huffman::TreeNode* root{Utilities::create_huffman_tree(minQ)};
-    std::cout << "Huffman BT has built!" << '\n';
 
-    // Huffman Encode Structure
-    std::cout << "Map is initialized!" << '\n';
     std::map<char, std::string> huffman_structure;
     Utilities::create_huffman_structure(root, "", huffman_structure);
-    std::cout << "Huffman Structure has built!" << '\n';
-
-    Utilities::print_map(huffman_structure);
 
 
-    std::fstream file;
-    file.open(path);
-    std::string new_line;
+
     std::vector<unsigned char> storage;
-
-    std::ofstream target_file("target_file.bin", std::ios::out | std::ios::binary);
-
+    std::ofstream target_file(fs::absolute(OUTPUT_PATH), std::ios::out | std::ios::binary);
     unsigned char buffer{};
-
+    input_file.open(fs::absolute(INPUT_PATH));
     long long total_bits_count{0};
-    while(std::getline(file, new_line)){
-        for(auto i{0}; i < new_line.size(); i++){
-            std::string encoded_phrase{huffman_structure[new_line.at(i)]};
 
-            for(auto j{0}; j < encoded_phrase.size(); j++){
+    while(std::getline(input_file, line)){
+        for(auto i{line.begin()}; i != line.end(); i++){
+            std::string encoded_phrase{huffman_structure[*i]};
+
+            for(auto j{encoded_phrase.begin()}; j < encoded_phrase.end(); j++){
                 buffer = buffer << 1;
-                if(encoded_phrase.at(j) == '1') buffer |= 1;
+                if(*j == '1') buffer |= 1;
                 else buffer |= 0;
                 total_bits_count++;
                 if(total_bits_count% 8 == 0){
@@ -73,16 +64,17 @@ int main()
                 }
             }
     }
+    input_file.close();
 
     int remaining = total_bits_count % 8;
     if (remaining > 0) {
-        buffer = buffer << (8 - remaining); // Move bits to the left
+        buffer = buffer << (8 - remaining);
         storage.push_back(buffer);
     }
+
     target_file.write(reinterpret_cast<const char*>(&total_bits_count), sizeof(total_bits_count));
     target_file.write(reinterpret_cast<const char*>(storage.data()), sizeof(storage.data()));
 
-    file.close();
     target_file.close();
 
     return 0;
